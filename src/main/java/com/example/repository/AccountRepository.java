@@ -11,4 +11,5 @@ import com.example.entity.Account;
 public interface AccountRepository extends CrudRepository<Account, Integer> {
 
    Optional<Account> findByUsername(String userName);
+   Account findByUsernameAndPassword(String username, String password);
 }

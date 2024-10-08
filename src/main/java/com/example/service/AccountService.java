@@ -29,4 +29,7 @@ public class AccountService {
         }
         return null;
     }
+    public Account login(Account account) {
+        return accountRepository.findByUsernameAndPassword(account.getUsername(), account.getPassword());
+    }
 }

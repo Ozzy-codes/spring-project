@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.entity.Account;
 import com.example.exception.AccountAlreadyExistsException;
@@ -37,6 +36,13 @@ public class SocialMediaController {
         return ResponseEntity.ok().body(output);
         }
         return null;
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<Account> authenticateUser(@RequestBody Account account) {
+        Account output = accountService.login(account);
+        if(output != null) return ResponseEntity.ok().body(output);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     @ExceptionHandler(AccountAlreadyExistsException.class)
