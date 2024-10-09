@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -55,7 +56,7 @@ public class SocialMediaController {
 
     @GetMapping("messages")
     public ResponseEntity<List<Message>> getMessages() {
-        return ResponseEntity.ok().body(messageService.getMessage());
+        return ResponseEntity.ok().body(messageService.getMessages());
     }
 
     @PostMapping("messages")
@@ -63,6 +64,11 @@ public class SocialMediaController {
         Message output = messageService.createNewMessage(msg);
         if(output != null) return ResponseEntity.ok().body(output);
         return ResponseEntity.badRequest().body(null);
+    }
+
+    @GetMapping("messages/{messageId}")
+    public ResponseEntity<Message> getMessage(@PathVariable Integer messageId) {
+        return ResponseEntity.ok().body(messageService.getMessageById(messageId));
     }
 
     @ExceptionHandler(AccountAlreadyExistsException.class)
