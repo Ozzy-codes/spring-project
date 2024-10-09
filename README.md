@@ -60,12 +60,12 @@ As a user, I should be able to verify my login on the endpoint POST localhost:80
 - If the login is not successful, the response status should be 401. (Unauthorized) -->
 
 
-## 3: Our API should be able to process the creation of new messages.
+<!-- ## 3: Our API should be able to process the creation of new messages.
 
 As a user, I should be able to submit a new post on the endpoint POST localhost:8080/messages. The request body will contain a JSON representation of a message, which should be persisted to the database, but will not contain a messageId.
 
 - The creation of the message will be successful if and only if the messageText is not blank, is not over 255 characters, and postedBy refers to a real, existing user. If successful, the response body should contain a JSON of the message, including its messageId. The response status should be 200, which is the default. The new message should be persisted to the database.
-- If the creation of the message is not successful, the response status should be 400. (Client error)
+- If the creation of the message is not successful, the response status should be 400. (Client error) -->
 
 ## 4: Our API should be able to retrieve all messages.
 

@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -48,6 +51,11 @@ public class SocialMediaController {
         Account output = accountService.login(account);
         if(output != null) return ResponseEntity.ok().body(output);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+
+    @GetMapping("messages")
+    public ResponseEntity<List<Message>> getMessages() {
+        return ResponseEntity.ok().body(messageService.getMessage());
     }
 
     @PostMapping("messages")
