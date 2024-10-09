@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.exception.AccountAlreadyExistsException;
 import com.example.service.AccountService;
+import com.example.service.MessageService;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -22,11 +25,13 @@ import com.example.service.AccountService;
 @RestController
 public class SocialMediaController {
 
-    @Autowired
     private AccountService accountService;
+    private MessageService messageService;
 
-    public SocialMediaController(AccountService accountService) {
+    @Autowired
+    public SocialMediaController(AccountService accountService, MessageService messageService) {
         this.accountService = accountService;
+        this.messageService = messageService;
     }
 
     @PostMapping("register")
@@ -45,9 +50,22 @@ public class SocialMediaController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
+    @PostMapping("messages")
+    public ResponseEntity<Message> createNewMessage(@RequestBody Message msg) {
+        Message output = messageService.createNewMessage(msg);
+        if(output != null) return ResponseEntity.ok().body(output);
+        return ResponseEntity.badRequest().body(null);
+    }
+
     @ExceptionHandler(AccountAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleAccountAlreadyExists(AccountAlreadyExistsException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleDataIntegretyViolation(DataIntegrityViolationException ex) {
         return ex.getMessage();
     }
 
