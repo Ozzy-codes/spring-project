@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,6 +76,15 @@ public class SocialMediaController {
     @DeleteMapping("messages/{messageId}")
     public ResponseEntity<Integer> deleteMessage(@PathVariable Integer messageId) {
         return ResponseEntity.ok().body(messageService.deleteMessageById(messageId));
+    }
+
+    @PatchMapping("messages/{messageId}")
+    public ResponseEntity<Integer> updateMessage(@PathVariable Integer messageId, @RequestBody Message msg) {
+        Integer output = messageService.updateMessageById(messageId, msg);
+        if(output != null) {
+        return ResponseEntity.ok().body(output);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
     @ExceptionHandler(AccountAlreadyExistsException.class)

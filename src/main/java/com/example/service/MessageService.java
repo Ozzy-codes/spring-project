@@ -21,7 +21,7 @@ public class MessageService {
     }
 
     public Message createNewMessage(Message msg) {
-        if (msg.getMessageText().length() != 0 && msg.getMessageText().length() < 255) {
+        if (isValidTextMessage(msg.getMessageText())) {
             return messageRepository.save(msg);
         }
         return null;
@@ -44,6 +44,21 @@ public class MessageService {
         return 1;
         }
         return null;
+    }
+    
+    @Transactional
+    public Integer updateMessageById(Integer id, Message msg) {
+        if(!messageRepository.findById(id).isPresent() || !isValidTextMessage(msg.getMessageText())) {
+        return null;
+        }
+        messageRepository.updateMessage(msg.getMessageText(), id);
+        return 1;
+    }
+
+    private Boolean isValidTextMessage(String text) {
+        if (text.length() != 0 && text.length() < 255)
+            return true;
+        return false;
     }
 }
 
