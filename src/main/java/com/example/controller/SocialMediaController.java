@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,6 +70,11 @@ public class SocialMediaController {
     @GetMapping("messages/{messageId}")
     public ResponseEntity<Message> getMessage(@PathVariable Integer messageId) {
         return ResponseEntity.ok().body(messageService.getMessageById(messageId));
+    }
+
+    @DeleteMapping("messages/{messageId}")
+    public ResponseEntity<Integer> deleteMessage(@PathVariable Integer messageId) {
+        return ResponseEntity.ok().body(messageService.deleteMessageById(messageId));
     }
 
     @ExceptionHandler(AccountAlreadyExistsException.class)

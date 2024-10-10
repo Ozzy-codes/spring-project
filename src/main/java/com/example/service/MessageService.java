@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Message;
 import com.example.repository.MessageRepository;
@@ -33,6 +34,15 @@ public class MessageService {
     public Message getMessageById(Integer id) {
         Optional<Message> output = messageRepository.findById(id);
         if(output.isPresent()) return output.get();
+        return null;
+    }
+    
+    @Transactional
+    public Integer deleteMessageById(Integer id) {
+        if(messageRepository.findById(id).isPresent()) {
+        messageRepository.deleteById(id);
+        return 1;
+        }
         return null;
     }
 }
