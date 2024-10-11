@@ -43,11 +43,10 @@ public class MessageService {
  
     @Transactional
     public Integer deleteMessageById(Integer id) {
-        if(messageRepository.findById(id).isPresent()) {
+        if(!messageRepository.findById(id).isPresent()) return null;
+
         messageRepository.deleteById(id);
         return 1;
-        }
-        return null;
     }
     
     @Transactional
@@ -55,13 +54,14 @@ public class MessageService {
         if(!messageRepository.findById(id).isPresent() || !isValidTextMessage(msg.getMessageText())) {
         return null;
         }
+
         messageRepository.updateMessage(msg.getMessageText(), id);
         return 1;
     }
 
     private Boolean isValidTextMessage(String text) {
-        if (text.length() != 0 && text.length() < 255)
-            return true;
+        if (text.length() != 0 && text.length() < 255) return true;
+
         return false;
     }
 }
