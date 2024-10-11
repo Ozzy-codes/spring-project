@@ -36,7 +36,11 @@ public class MessageService {
         if(output.isPresent()) return output.get();
         return null;
     }
-    
+
+    public List<Message> getUserMessages(Integer accountId) {
+        return messageRepository.findByPostedBy(accountId);
+    }
+ 
     @Transactional
     public Integer deleteMessageById(Integer id) {
         if(messageRepository.findById(id).isPresent()) {

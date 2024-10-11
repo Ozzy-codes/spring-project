@@ -87,6 +87,11 @@ public class SocialMediaController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    @GetMapping("accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getUserMessages(@PathVariable Integer accountId) {
+        return ResponseEntity.ok().body(messageService.getUserMessages(accountId));
+    }
+
     @ExceptionHandler(AccountAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleAccountAlreadyExists(AccountAlreadyExistsException ex) {
